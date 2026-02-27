@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nabeel Rashid - MERN Stack & Next.js Developer</title>
+    <meta name="description"
+        content="Premium MERN Stack & Next.js Developer based in Karachi, Pakistan. Specializing in full-stack development with React, Node.js, and modern web technologies.">
+    <meta name="keywords"
+        content="MERN Stack Developer, Next.js Developer, React Developer, Node.js, Full Stack Developer, Karachi">
+    <meta name="author" content="Nabeel Rashid">
+    <meta property="og:title" content="Nabeel Rashid - MERN Stack Developer">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nabeelrashid.dev">
+    <meta property="og:image" content="/profile.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.3s ease;
+            padding-top: 80px;
+            /* Add padding to account for fixed header */
+        }
+
+        /* Fixed Header Styles */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+        }
+
+        .fixed-header.scrolled {
+            background: rgba(139, 92, 246, 0.1);
+            box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.2);
+            padding: 0.5rem 0;
+        }
+
+        .dark-theme .fixed-header.scrolled {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .light-theme .fixed-header.scrolled {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #8b5cf6;
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .nav-link.active {
+            color: #8b5cf6;
+        }
+
+        .nav-link.active::after {
+            width: 80%;
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: inherit;
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .mobile-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .dark-theme .mobile-menu {
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        .light-theme .mobile-menu {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: currentColor;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #8b5cf6;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            backdrop-filter: blur(2px);
+        }
+
+        /* Theme Styles */
+        .dark-theme {
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .light-theme {
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff6b6b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientFlow 8s ease infinite;
+        }
+
+        @keyframes gradientFlow {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .animated-bg span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(139, 92, 246, 0.1);
+            animation: move 25s linear infinite;
+            border-radius: 50%;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.8;
+                border-radius: 0;
+            }
+
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        /* Section Animations */
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section Animations */
+        .hero-content {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Profile Image */
+        .profile-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            border: 4px solid transparent;
+            background: linear-gradient(45deg, #667eea, #764ba2, #ff6b6b) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .profile-glow {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(circle at 30% 30%, rgba(139, 92, 246, 0.3), transparent 70%);
+            border-radius: 50%;
+            filter: blur(10px);
+            animation: pulse 3s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Skill Cards */
+        .skill-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #8b5cf6;
+            box-shadow: 0 20px 40px -15px rgba(139, 92, 246, 0.3);
+        }
+
+        .skill-card:hover::before {
+            left: 100%;
+        }
+
+        .skill-card i {
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover i {
+            transform: scale(1.2) rotate(360deg);
+            color: #8b5cf6;
+        }
+
+        /* Project Cards */
+        .project-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: #8b5cf6;
+            box-shadow: 0 30px 60px -15px rgba(139, 92, 246, 0.4);
+        }
+
+        .project-image {
+            position: relative;
+            overflow: hidden;
+            height: 250px;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            background: #3b82f6;
+            margin-left: 4px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            50%,
+            100% {
+                opacity: 1;
+            }
+
+            25%,
+            75% {
+                opacity: 0;
+            }
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(139, 92, 246, 0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-overlay a {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b5cf6;
+            font-size: 1.5rem;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover .project-overlay a {
+            transform: translateY(0);
+        }
+
+        .project-overlay a:hover {
+            background: #8b5cf6;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Tech Stack Tags */
+        .tech-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            margin: 0.25rem;
+        }
+
+        .tech-tag:hover {
+            background: #8b5cf6;
+            color: white;
+            transform: scale(1.05);
+            border-color: transparent;
+        }
+
+        /* Experience Timeline */
+        .timeline-item {
+            position: relative;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #8b5cf6;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -12px;
+            top: 2rem;
+            width: 20px;
+            height: 20px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        /* Testimonial Cards */
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            border-radius: 30px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .testimonial-card:hover {
+            transform: scale(1.02);
+            border-color: #8b5cf6;
+            box-shadow: 0 20px 40px -15px rgba(139, 92, 246, 0.3);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 8rem;
+            color: rgba(139, 92, 246, 0.1);
+            font-family: serif;
+        }
+
+        /* Contact Form */
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            border-radius: 50px;
+            color: inherit;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+            transform: scale(1.02);
+        }
+
+        .form-input:hover {
+            border-color: #8b5cf6;
+        }
+
+        textarea.form-input {
+            border-radius: 30px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px -5px #8b5cf6;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid #8b5cf6;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(180deg) scale(1.1);
+            background: #8b5cf6;
+            color: white;
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(139, 92, 246, 0.3);
+            border-top-color: #8b5cf6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Social Links */
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .social-link:hover {
+            background: #8b5cf6;
+            color: white;
+            transform: translateY(-5px) rotate(360deg);
+            border-color: transparent;
+        }
+
+        /* Scroll Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #ff6b6b);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu .nav-link {
+                padding: 1rem 2rem;
+                border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+                display: block;
+                text-align: center;
+            }
+
+            .cursor,
+            .cursor-follower {
+                display: none;
+            }
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="light-theme" id="body">
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursorFollower"></div>
+
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Fixed Header -->
+    <header class="fixed-header" id="header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="text-2xl font-bold font-['Space_Grotesk']">
+                    <a href="#hero" class="nav-link !p-0">
+                        <span class="gradient-text">N.R</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="nav-links flex gap-2">
+                    <a href="#hero" class="nav-link">Home</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#tech-stack" class="nav-link">Tech Stack</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#experience" class="nav-link">Experience</a>
+                    <!-- <a href="#testimonials" class="nav-link">Testimonials</a> -->
+                    <a href="#contact" class="nav-link">Contact</a>
+                </nav>
+
+                <!-- Mobile Menu Toggle -->
+                <div class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-menu" id="mobileMenu">
+        <nav class="flex flex-col">
+            <a href="#hero" class="nav-link" onclick="closeMobileMenu()">Home</a>
+            <a href="#about" class="nav-link" onclick="closeMobileMenu()">About</a>
+            <a href="#tech-stack" class="nav-link" onclick="closeMobileMenu()">Tech Stack</a>
+            <a href="#projects" class="nav-link" onclick="closeMobileMenu()">Projects</a>
+            <a href="#experience" class="nav-link" onclick="closeMobileMenu()">Experience</a>
+            <a href="#testimonials" class="nav-link" onclick="closeMobileMenu()">Testimonials</a>
+            <a href="#contact" class="nav-link" onclick="closeMobileMenu()">Contact</a>
+        </nav>
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+
+
+
+
+        <section class="min-h-screen flex items-center justify-center px-6 ">
+
+            <div class="w-full max-w-6xl text-center">
+
+                <!-- Name -->
+                <!-- <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 
+    bg-gradient-to-r from-purple-400 via-indigo-400 to-blue-400 
+    bg-clip-text text-transparent leading-tight">
+                    Nabeel Rashid
+                </h1> -->
+
+                <h1 class="text-5xl md:text-6xl font-bold tracking-wide text-center font-bold mb-4 gradient-text
+                bg-clip-text text-transparent
+                ">
+                    Nabeel Rashid
+                </h1>
+
+                <!-- Role -->
+                <p class="text-lg sm:text-xl md:text-2xl text-gray-300 mb-12">
+                    <!-- Frontend React Developer -->
+                     Full-Stack | Mern Stack Specialist 
+                </p>
+
+                <!-- Terminal Card -->
+                <div class="w-full max-w-3xl mx-auto rounded-2xl overflow-hidden 
+    bg-slate-900/80 backdrop-blur-xl border border-slate-700/60 shadow-2xl">
+
+                    <!-- Terminal Header -->
+                    <div class="flex items-center justify-between px-5 py-3 
+      bg-slate-800/70 border-b border-slate-700/60">
+
+                        <!-- Window Buttons -->
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+                            <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+                            <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="text-gray-400 text-start text-sm font-mono">
+                            nabeel@portfolio — bash
+                        </div>
+
+                        <div></div>
+                    </div>
+
+                    <!-- Terminal Body -->
+                    <div class="p-6 sm:p-8 text-left font-mono text-sm sm:text-base 
+                                text-green-400 min-h-[250px] space-y-2 mt-1 ">
+
+
+
+
+                        <!-- <div class="mt-4"> -->
+
+                        <div id="terminal-output" class="mt-1 "></div>
+                        <!-- </div> -->
+
+
+
+
+                        <!-- 
+                        <div>
+                            <span class="text-blue-400">$</span> whoami
+                            <p class="text-gray-300 mt-1">
+                                Nabeel Rashid - React Developer
+                            </p>
+                        </div>
+
+                        <div>
+                            <span class="text-blue-400">$</span> skills
+                            <p class="text-gray-300 mt-1">
+                                React.js · Next.js · JavaScript · Node.js · Express · MySQL
+                            </p>
+                        </div>
+
+                        <div>
+                            <span class="text-blue-400">$</span> status
+                            <p class="text-gray-300 mt-1">
+                                Available for freelance & full-time opportunities
+                            </p>
+                        </div>
+
+                        <div>
+                            <span class="text-blue-400">$</span> contact
+                            <p class="text-gray-300 mt-1">
+                                Scroll down to hire me 🚀
+                            </p>
+                        </div> -->
+
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
+
+                    <!-- Hire Me -->
+                    <a href="#contact" class="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 
+        text-white rounded-full font-semibold transition-all duration-300 
+        hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/40">
+                        Hire Me
+                    </a>
+
+                    <!-- Download CV -->
+                    <a href="/resume.pdf" download class="px-8 py-4 border-2 border-purple-500 text-purple-400 
+        rounded-full font-semibold transition-all duration-300 
+        hover:bg-purple-500 hover:text-white hover:scale-105">
+                        Download CV
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- About Section -->
+        <section id="about" class="py-20 section-fade-in">
+            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">
+                About <span class="gradient-text">Me</span>
+            </h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-4 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-3xl opacity-0 group-hover:opacity-50 blur-xl transition-opacity duration-500">
+                    </div>
+                    <img src="./assests/ruks.png" alt="Nabeel Rashid"
+                        class="rounded-3xl shadow-2xl relative z-10 transform transition-transform duration-500 group-hover:scale-105">
+                </div>
+                <div>
+                    <p class="text-lg leading-relaxed mb-6">
+                        Results-driven Full Stack Developer with <span class="text-purple-500 font-bold">3+
+                            years</span> of experience building enterprise-level applications. Strong expertise in React
+                        Node and
+                        Expressjs.Also have experienced in api integartion ,authentication and
+                        performace optimazation.Proven ablity to collabrate with cross functional
+                        teams,write clean and maintainable code and deliver high quality solution
+                        in fast environment.
+                    </p>
+                    <p class="text-lg leading-relaxed mb-8">
+                        Based in Karachi, Pakistan, I've worked with startups and established companies. My approach
+                        combines technical excellence with creative problem-solving.
+                    </p>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl">
+                            <h3 class="font-bold text-sm text-purple-500">React 18/19 + Nextjs + Nodejs</h3>
+                            <p class="text-sm">FrameWork</p>
+                        </div>
+                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl">
+                            <h3 class="font-bold text-sm text-purple-500">English + Urdu(Fluent)</h3>
+                            <p class="text-sm">Language</p>
+                        </div>
+                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl">
+                            <h3 class="font-bold text-sm text-purple-500">Gulistan e johore KHI</h3>
+                            <p class="text-sm">Location</p>
+                        </div>
+                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl">
+                            <h3 class="font-bold text-sm text-purple-500">Open to work</h3>
+                            <p class="text-sm">Status</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section id="tech-stack" class="py-20 section-fade-in">
+            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">
+                Tech <span class="gradient-text">Stack</span>
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="skill-card text-center">
+                    <i class="fab fa-react text-5xl text-blue-500 mb-3"></i>
+                    <h3 class="font-semibold text-xl">React.js</h3>
+                    <p class="text-sm text-gray-500">Frontend</p>
+                </div>
+                <div class="skill-card text-center">
+                    <i class="fab fa-node text-5xl text-green-500 mb-3"></i>
+                    <h3 class="font-semibold text-xl">Node.js</h3>
+                    <p class="text-sm text-gray-500">Backend</p>
+                </div>
+                <div class="skill-card text-center">
+                    <i class="fas fa-database text-5xl text-orange-500 mb-3"></i>
+                    <h3 class="font-semibold text-xl">MySQL</h3>
+                    <p class="text-sm text-gray-500">Database</p>
+                </div>
+                <div class="skill-card text-center">
+                    <i class="fab fa-js text-5xl text-yellow-500 mb-3"></i>
+                    <h3 class="font-semibold text-xl">Next.js</h3>
+                    <p class="text-sm text-gray-500">Framework</p>
+                </div>
+                <div class="skill-card text-center">
+                    <i class="fab fa-css3-alt text-5xl text-blue-300 mb-3"></i>
+                    <h3 class="font-semibold text-xl">Tailwind CSS</h3>
+                    <p class="text-sm text-gray-500">Styling</p>
+                </div>
+                <div class="skill-card text-center">
+                    <i class="fab fa-python text-5xl text-blue-600 mb-3"></i>
+                    <h3 class="font-semibold text-xl">Python</h3>
+                    <p class="text-sm text-gray-500">AI/ML</p>
+                </div>
+                <div class="skill-card text-center">
+                    <i class="fab fa-git-alt text-5xl text-orange-600 mb-3"></i>
+                    <h3 class="font-semibold text-xl">Git</h3>
+                    <p class="text-sm text-gray-500">Version Control</p>
+                </div>
+                <div class="skill-card text-center">
+                    <i class="fas fa-cloud text-5xl text-blue-400 mb-3"></i>
+                    <h3 class="font-semibold text-xl">AWS</h3>
+                    <p class="text-sm text-gray-500">Cloud</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Projects -->
+        <section id="projects" class="py-20 section-fade-in">
+            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">
+                Featured <span class="gradient-text">Projects</span>
+            </h2>
+            <div class="grid md:grid-cols-3  gap-8">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="./assests/exppppp.png" alt="E-commerce Platform">
+                        <div class="project-overlay">
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="https://exploriee.com"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Exploriee</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Exploriee.com appears to be a travel-tech
+                            startup focused on trips and travel management solutions, designed to help users plan,
+                            organize, and book complete travel adventures with ease. The platform aims to simplify the
+                            travel experience by combining itinerary planning, booking tools, and travel services</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Tailwindcss</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">Stripe</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="./assests/bbbb.png" alt="AI Trading Bot">
+                        <div class="project-overlay">
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="https://cabify.com/en"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Cabtify</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Cabify’s business model combines ride-hailing, corporate mobility, and logistics services
+                            through a technology-driven platform.
+                            It connects passengers with professional drivers and earns revenue via ride commissions.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">TensorFlow</span>
+                            <span class="tech-tag">WebSocket</span>
+                            <span class="tech-tag">Redis</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="./assests/ruks.png" alt="Translation Service">
+                        <div class="project-overlay">
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="https://rukn-al-awar.vercel.app"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Rukn Al Tawar</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Rukn Al Tawar Waste is a leading iron recycling
+                            company committed to promoting environmental sustainability and resource efficiency. We
+                            specialize in the collection, processing, and recycling of iron and metal waste.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">Css3</span>
+                            <span class="tech-tag">Bootstrap</span>
+                            <span class="tech-tag">WebRTC</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="./assests/rvvvv.png" alt="moiser">
+                        <div class="project-overlay">
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="https://moisesrv.com/"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">Moises Rv</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Moisesrv is committed to delivering a safe,
+                            convenient, and stress-free travel experience, allowing customers to explore destinations
+                            with flexibility and freedom. With a strong focus on customer satisfaction and quality
+                            service.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Redis</span>
+                            <span class="tech-tag">WebRTC</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="./assests/adminss.png" alt="Translation Service">
+                        <div class="project-overlay">
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="https://tailadmins.vercel.app/"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2">E-commerce Admin</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Moisesrv.com is committed to delivering a safe,
+                            convenient, and stress-free travel experience, allowing customers to explore destinations
+                            with flexibility and freedom. With a strong focus on customer satisfaction and quality
+                            service.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">Material UI</span>
+                            <span class="tech-tag">Rest Apis</span>
+                            <span class="tech-tag">WebRTC</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-20 section-fade-in">
+            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">
+                Work <span class="gradient-text">Experience</span>
+            </h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3 class="text-2xl font-bold">Software Engineer</h3>
+                    <p class="text-purple-500 mb-2">TechSoft · 2/2024 - Present</p>
+                    <ul class="text-gray-600 dark:text-gray-300 list-disc pl-5 space-y-2">
+                        <li>Design and implement responsive UI components using React.js.</li>
+                        <li>Work with state management tools like Redux, Context API, or Zustand.</li>
+                        <li>Ensure cross-browser compatibility and mobile responsiveness.</li>
+                        <li>Build RESTful APIs and/or GraphQL endpoints.</li>
+                        <li>Manage server-side logic, authentication, and data validation.</li>
+                        <li>Implement middleware for security, logging, and error handling.</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3 class="text-2xl font-bold">Full Stack Developer</h3>
+                    <p class="text-purple-500 mb-2">Sunbonn Technology · 11/2022 - 2/2024</p>
+                    <ul class="text-gray-600 dark:text-gray-300 list-disc pl-5 space-y-2">
+                        <li>Optimize frontend for performance and fast load times.</li>
+                        <li>Integrate APIs and dynamic content into the frontend.</li>
+                        <li>Ensure scalability and maintainability of backend services.</li>
+                        <li>Design and manage MongoDB collections and schemas.</li>
+                        <li>Write optimized queries for data retrieval and manipulation.</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3 class="text-2xl font-bold">Junior Web Developer</h3>
+                    <p class="text-purple-500 mb-2">Friends Bit · 8/2021 - 10/2022</p>
+                    <ul class="text-gray-600 dark:text-gray-300 list-disc pl-5 space-y-2">
+                        <li>Contributed to internal project management software, improving workflow automation and
+                            aligning technical solutions with business objectives.</li>
+                        <li>Learning to integrate backend services such as Node.js and databases like MongoDB.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <!-- <section id="testimonials" class="py-20 section-fade-in">
+            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">
+                Client <span class="gradient-text">Testimonials</span>
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="testimonial-card">
+                    <div class="flex items-center mb-6">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Client"
+                            class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-purple-500">
+                        <div>
+                            <h4 class="font-bold text-xl">John Smith</h4>
+                            <p class="text-sm text-gray-500">CEO, TechStart</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 italic text-lg">"Nabeel is an exceptional developer. He
+                        delivered our e-commerce platform ahead of schedule and exceeded all expectations. His attention
+                        to detail and problem-solving skills are outstanding."</p>
+                    <div class="mt-4 text-yellow-400 text-xl">
+                        ★ ★ ★ ★ ★
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="flex items-center mb-6">
+                        <img src="https://images.unsplash.com/photo-1494790108777-466d1039fa23?w=100" alt="Client"
+                            class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-purple-500">
+                        <div>
+                            <h4 class="font-bold text-xl">Sarah Johnson</h4>
+                            <p class="text-sm text-gray-500">Product Manager, InnovateLabs</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 italic text-lg">"Working with Nabeel was a pleasure. His
+                        technical expertise and communication skills made our complex project run smoothly. Highly
+                        recommended!"</p>
+                    <div class="mt-4 text-yellow-400 text-xl">
+                        ★ ★ ★ ★ ★
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- Contact Form Section -->
+        <section id="contact" class="py-20 section-fade-in">
+            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">
+                Get In <span class="gradient-text">Touch</span>
+            </h2>
+            <div class="max-w-2xl mx-auto">
+                <form id="contactForm" class="space-y-6" onsubmit="handleSubmit(event)">
+                    <div class="group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required class="form-input">
+                    </div>
+                    <div>
+                        <input type="email" id="email" name="email" placeholder="Your Email" required
+                            class="form-input">
+                    </div>
+                    <div>
+                        <textarea id="message" name="message" rows="5" placeholder="Your Message" required
+                            class="form-input"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span>Send Message</span>
+                        <i class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
+                <div id="formMessage" class="mt-4 text-center hidden"></div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-12 border-t border-gray-200 dark:border-gray-700">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-600 dark:text-gray-400">&copy; 2024 Nabeel Rashid. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="https://github.com" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com" target="_blank" class="social-link"><i
+                            class="fab fa-linkedin-in"></i></a>
+                    <a href="https://twitter.com" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank" class="social-link"><i
+                            class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particles.js Background
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#8b5cf6' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#8b5cf6',
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const cursorFollower = document.getElementById('cursorFollower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+
+            setTimeout(() => {
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            }, 100);
+        });
+
+        // Hover effect on interactive elements
+        document.querySelectorAll('a, button, .skill-card, .project-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.backgroundColor = 'rgba(139, 92, 246, 0.3)';
+                cursorFollower.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            });
+
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.backgroundColor = 'transparent';
+                cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+        });
+
+
+        const terminal = document.getElementById("terminal-output");
+
+        const texts = [
+            "Initializing portfolio...",
+            "Role: Full-Stack Developer | MERN Stack | Karachi, Pakistan",
+            "Status: Open to opportunities — Onsite & Remote",
+            "Stack: React · Next.js · TypeScript · Node.js",
+             "Passion: Clean Code & Scalable Applications",
+        ];
+
+        let lineIndex = 0;
+        let charIndex = 0;
+
+        function typeLine() {
+            if (lineIndex >= texts.length) return;
+
+            let currentLine = texts[lineIndex];
+
+            // Create new line div if starting new line
+            if (charIndex === 0) {
+                const newLine = document.createElement("div");
+                newLine.innerHTML = `<span class="text-blue-400">></span> <span class="line-text"></span><span class="cursor"></span>`;
+                terminal.appendChild(newLine);
+            }
+
+            const currentDiv = terminal.lastChild;
+            const textSpan = currentDiv.querySelector(".line-text");
+
+            textSpan.textContent = currentLine.substring(0, charIndex + 1);
+            charIndex++;
+
+            if (charIndex === currentLine.length) {
+                currentDiv.querySelector(".cursor").remove();
+                lineIndex++;
+                charIndex = 0;
+                setTimeout(typeLine, 600);
+            } else {
+                setTimeout(typeLine, 50);
+            }
+        }
+
+        typeLine();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Typing Effect
+        // const phrases = [
+        //     // 'MERN Stack Developer',
+        //     // 'Next.js Specialist',
+        //     // 'Full Stack Expert',
+        //     // 'UI/UX Enthusiast',
+        //     // 'Problem Solver'
+        //     'Initinizing project'
+        // ];
+
+        // let currentPhrase = 0;
+        // let currentChar = 0;
+        // let isDeleting = false;
+        // const typingElement = document.getElementById('typing-text');
+
+        // function typeEffect() {
+        //     const current = phrases[currentPhrase];
+
+        //     if (isDeleting) {
+        //         typingElement.textContent = current.substring(0, currentChar - 1);
+        //         currentChar--;
+        //     } else {
+        //         typingElement.textContent = current.substring(0, currentChar + 1);
+        //         currentChar++;
+        //     }
+
+        //     if (!isDeleting && currentChar === current.length) {
+        //         isDeleting = true;
+        //         setTimeout(typeEffect, 2000);
+        //     } else if (isDeleting && currentChar === 0) {
+        //         isDeleting = false;
+        //         currentPhrase = (currentPhrase + 1) % phrases.length;
+        //         setTimeout(typeEffect, 500);
+        //     } else {
+        //         setTimeout(typeEffect, isDeleting ? 50 : 100);
+        //     }
+        // }
+
+        // typeEffect();
+
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section-fade-in').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Active navigation link based on scroll position
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.getElementById('body');
+            const icon = document.getElementById('theme-icon');
+
+            if (body.classList.contains('light-theme')) {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.getElementById('body').classList.remove('light-theme');
+            document.getElementById('body').classList.add('dark-theme');
+            document.getElementById('theme-icon').classList.remove('fa-moon');
+            document.getElementById('theme-icon').classList.add('fa-sun');
+        }
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.getElementById('menuToggle');
+            menu.classList.toggle('open');
+            toggle.classList.toggle('open');
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.getElementById('menuToggle');
+            menu.classList.remove('open');
+            toggle.classList.remove('open');
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.offsetTop;
+                    const offsetPosition = elementPosition - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Contact Form Submission
+        async function handleSubmit(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('contactForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+            submitButton.disabled = true;
+
+            try {
+                // Simulate API call (replace with actual API endpoint)
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                const messageDiv = document.getElementById('formMessage');
+                messageDiv.classList.remove('hidden');
+
+                messageDiv.className = 'mt-4 text-center text-green-500 font-semibold';
+                messageDiv.textContent = '✨ Message sent successfully! I\'ll get back to you soon.';
+                form.reset();
+            } catch (error) {
+                console.error('Error:', error);
+                const messageDiv = document.getElementById('formMessage');
+                messageDiv.classList.remove('hidden');
+                messageDiv.className = 'mt-4 text-center text-red-500 font-semibold';
+                messageDiv.textContent = '❌ Network error. Please try again.';
+            } finally {
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+
+                setTimeout(() => {
+                    document.getElementById('formMessage').classList.add('hidden');
+                }, 5000);
+            }
+        }
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.getElementById('hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Mouse move parallax for hero section
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+
+            const heroContent = document.querySelector('.hero-content');
+            if (heroContent) {
+                heroContent.style.transform = `translate(${mouseX * 20}px, ${mouseY * 20}px)`;
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.getElementById('menuToggle');
+
+            if (!menu.contains(e.target) && !toggle.contains(e.target) && menu.classList.contains('open')) {
+                menu.classList.remove('open');
+                toggle.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+
+</html>
