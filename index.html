@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nabeel Rashid – dark MERN stack</title>
-    <meta name="description" content="Premium MERN Stack & Next.js Developer – Karachi, Pakistan. Full‑stack, React, Node.js, modern web.">
+    <meta name="description"
+        content="Premium MERN Stack & Next.js Developer – Karachi, Pakistan. Full‑stack, React, Node.js, modern web.">
     <!-- Tailwind + Font Awesome (keep as is) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -13,27 +15,40 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;        /* permanent dark */
-            color: #ffffff;                    /* permanent light text */
+            background-color: #0a0a0a;
+            /* permanent dark */
+            color: #ffffff;
+            /* permanent light text */
             overflow-x: hidden;
-            padding-top: 80px;                 /* fixed header space */
-            transition: none;                   /* remove theme transition */
+            padding-top: 80px;
+            /* fixed header space */
+            transition: none;
+            /* remove theme transition */
         }
 
         /* ---------- FIXED HEADER (same but dark background) ---------- */
         .fixed-header {
             position: fixed;
-            top: 0; left: 0; width: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
             z-index: 1000;
             backdrop-filter: blur(10px);
-            background: rgba(10, 10, 10, 0.8);  /* always dark transparent */
+            background: rgba(10, 10, 10, 0.8);
+            /* always dark transparent */
             transition: all 0.3s ease;
             padding: 1rem 0;
             border-bottom: 1px solid rgba(139, 92, 246, 0.15);
         }
+
         .fixed-header.scrolled {
             background: rgba(0, 0, 0, 0.95);
             box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3);
@@ -41,7 +56,12 @@
         }
 
         /* desktop nav links */
-        .nav-links { display: flex; gap: 0.5rem; align-items: center; }
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
         .nav-link {
             position: relative;
             padding: 0.5rem 1rem;
@@ -51,155 +71,395 @@
             white-space: nowrap;
             color: #e0e0e0;
         }
+
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: 0; left: 50%;
+            bottom: 0;
+            left: 50%;
             transform: translateX(-50%) scaleX(0);
-            width: 0; height: 2px;
+            width: 0;
+            height: 2px;
             background: linear-gradient(90deg, #a78bfa, #8b5cf6);
             transition: all 0.3s ease;
         }
-        .nav-link:hover { color: #c4b5fd; }
-        .nav-link:hover::after { width: 80%; transform: translateX(-50%) scaleX(1); }
-        .nav-link.active { color: #c4b5fd; }
-        .nav-link.active::after { width: 80%; transform: translateX(-50%) scaleX(1); }
+
+        .nav-link:hover {
+            color: #c4b5fd;
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .nav-link.active {
+            color: #c4b5fd;
+        }
+
+        .nav-link.active::after {
+            width: 80%;
+            transform: translateX(-50%) scaleX(1);
+        }
 
         /* hamburger menu (always visible on mobile) */
         .menu-toggle {
-            display: none; flex-direction: column; cursor: pointer; padding: 0.5rem; z-index: 1100;
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1100;
         }
+
         .menu-toggle span {
-            width: 25px; height: 3px; background: #ffffff; margin: 2px 0;
+            width: 25px;
+            height: 3px;
+            background: #ffffff;
+            margin: 2px 0;
             transition: all 0.3s ease;
         }
-        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-        .menu-toggle.open span:nth-child(2) { opacity: 0; }
-        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+        .menu-toggle.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
 
         /* mobile menu panel – dark only */
         .mobile-menu {
-            position: fixed; top: 80px; left: 0; width: 100%;
-            background: #0a0a0a; backdrop-filter: blur(12px);
-            z-index: 999; transform: translateY(-150%); opacity: 0;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: #0a0a0a;
+            backdrop-filter: blur(12px);
+            z-index: 999;
+            transform: translateY(-150%);
+            opacity: 0;
             transition: transform 0.4s ease, opacity 0.3s ease;
-            pointer-events: none; border-bottom: 1px solid rgba(139, 92, 246, 0.3);
-            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.8);
+            pointer-events: none;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.8);
         }
-        .mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+
+        .mobile-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
         .mobile-menu .nav-link {
-            display: block; padding: 1.2rem 2rem; text-align: center; font-size: 1.2rem;
-            border-bottom: 1px solid rgba(139, 92, 246, 0.2); color: #eee;
+            display: block;
+            padding: 1.2rem 2rem;
+            text-align: center;
+            font-size: 1.2rem;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            color: #eee;
         }
 
         @media (max-width: 820px) {
-            .menu-toggle { display: flex; }
-            .nav-links { display: none; }
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
         }
+
         @media (max-width: 480px) {
-            .fixed-header { padding: 0.8rem 0; }
-            .mobile-menu { top: 70px; }
+            .fixed-header {
+                padding: 0.8rem 0;
+            }
+
+            .mobile-menu {
+                top: 70px;
+            }
         }
 
         /* ----- permanent dark styles (removed .light-theme completely) ----- */
-        .cursor, .cursor-follower { display: block; }  /* keep if you want custom cursor, else we keep it */
-        .cursor {
-            width: 20px; height: 20px; border: 2px solid #8b5cf6; border-radius: 50%;
-            position: fixed; pointer-events: none; z-index: 9999; transition: all 0.1s ease;
-            transform: translate(-50%, -50%); mix-blend-mode: difference;
-        }
+        .cursor,
         .cursor-follower {
-            width: 40px; height: 40px; background: rgba(139, 92, 246, 0.15);
-            border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998;
-            transition: all 0.3s ease; transform: translate(-50%, -50%); backdrop-filter: blur(2px);
+            display: block;
+        }
+
+        /* keep if you want custom cursor, else we keep it */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #8b5cf6;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            background: rgba(139, 92, 246, 0.15);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+            backdrop-filter: blur(2px);
         }
 
         /* gradient text (same as before) */
         .gradient-text {
             background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 50%, #f472b6 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
             animation: gradientFlow 8s ease infinite;
         }
-        @keyframes gradientFlow { 0%,100%{ background-position: 0% 50%; } 50%{ background-position: 100% 50%; } }
+
+        @keyframes gradientFlow {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
 
         /* animated background particles (will be behind) */
-        #particles-js { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none; }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
 
         /* section fade in */
-        .section-fade-in { opacity:0; transform:translateY(30px); transition: all 0.8s cubic-bezier(0.4,0,0.2,1); }
-        .section-fade-in.visible { opacity:1; transform:translateY(0); }
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* skill cards (dark glass) */
         .skill-card {
-            background: rgba(255,255,255,0.03); backdrop-filter: blur(8px);
-            border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 20px; padding:1.5rem;
-            transition: all 0.4s cubic-bezier(0.4,0,0.2,1); overflow:hidden; color:#ddd;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            color: #ddd;
         }
-        .skill-card:hover { transform: translateY(-10px) scale(1.02); border-color:#8b5cf6; box-shadow: 0 20px 40px -15px #8b5cf6; }
-        .skill-card i { transition: 0.3s; }
-        .skill-card:hover i { transform: scale(1.2) rotate(360deg); color: #b794f4; }
+
+        .skill-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #8b5cf6;
+            box-shadow: 0 20px 40px -15px #8b5cf6;
+        }
+
+        .skill-card i {
+            transition: 0.3s;
+        }
+
+        .skill-card:hover i {
+            transform: scale(1.2) rotate(360deg);
+            color: #b794f4;
+        }
 
         .project-card {
-            background: rgba(20,20,30,0.6); backdrop-filter: blur(8px);
-            border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 10px; overflow:hidden;
-            transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .project-card:hover { transform: translateY(-15px) scale(1.02); border-color:#8b5cf6; box-shadow: 0 30px 60px -15px #b185f0; }
 
-        .project-image { position:relative; overflow:hidden; height:250px; }
-        .project-image img { width:100%; height:100%; object-fit:cover; transition: transform 0.7s ease; }
-        .project-card:hover .project-image img { transform: scale(1.1); }
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: #8b5cf6;
+            box-shadow: 0 30px 60px -15px #b185f0;
+        }
+
+        .project-image {
+            position: relative;
+            overflow: hidden;
+            height: 250px;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
 
         .tech-tag {
-            display:inline-block; padding:0.5rem 1rem; background:rgba(139, 92, 246, 0.15);
-            border:1px solid rgba(139, 92, 246, 0.3); border-radius:50px; font-size:0.875rem;
-            transition:all 0.3s ease; color:#ccc;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            color: #ccc;
         }
-        .tech-tag:hover { background:#8b5cf6; color:#fff; border-color:transparent; }
+
+        .tech-tag:hover {
+            background: #8b5cf6;
+            color: #fff;
+            border-color: transparent;
+        }
 
         .timeline-item {
-            position:relative; padding:2rem; background:rgba(255,255,255,0.02); border-radius:20px;
-            margin-bottom:2rem; border-left:4px solid #8b5cf6; transition:0.3s;
+            position: relative;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #8b5cf6;
+            transition: 0.3s;
         }
-        .timeline-item:hover { transform:translateX(10px); background:rgba(139, 92, 246, 0.1); }
-        .timeline-dot { position:absolute; left:-12px; top:2rem; width:20px; height:20px; background:#8b5cf6; border-radius:50%; animation:pulse 2s infinite; }
-        @keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:0.5; } }
+
+        .timeline-item:hover {
+            transform: translateX(10px);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -12px;
+            top: 2rem;
+            width: 20px;
+            height: 20px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
 
         /* form inputs dark style */
         .form-input {
-            width:100%; padding:1rem 1.5rem; background:rgba(30,30,40,0.8);
-            border:2px solid rgba(139, 92, 246, 0.3); border-radius:50px; color:#eee;
-            transition:0.3s; font-size:1rem;
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(30, 30, 40, 0.8);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 50px;
+            color: #eee;
+            transition: 0.3s;
+            font-size: 1rem;
         }
-        .form-input:focus { outline:none; border-color:#8b5cf6; box-shadow:0 0 0 4px rgba(139,92,246,0.2); transform:scale(1.02); }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+            transform: scale(1.02);
+        }
 
         .submit-btn {
-            width:100%; padding:1rem; background:linear-gradient(135deg, #7c3aed, #a855f7);
-            border:none; border-radius:50px; color:white; font-weight:bold; font-size:1.1rem;
-            cursor:pointer; overflow:hidden;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            overflow: hidden;
         }
-        .submit-btn:hover { transform:translateY(-3px); box-shadow:0 10px 30px -5px #c084fc; }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px -5px #c084fc;
+        }
 
         /* theme toggle is removed – only dark mode, but we keep a static button? we'll hide it but still keep? better to remove it visually */
-        .theme-toggle { display: none; }   /* hide theme switcher completely – no light mode */
+        .theme-toggle {
+            display: none;
+        }
+
+        /* hide theme switcher completely – no light mode */
 
         .social-link {
-            width:45px; height:45px; border-radius:50%; background:rgba(139,92,246,0.15);
-            display:flex; align-items:center; justify-content:center; font-size:1.5rem;
-            transition:0.3s; border:1px solid rgba(139,92,246,0.3); color:#fff;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #fff;
         }
-        .social-link:hover { background:#8b5cf6; color:#000; transform:translateY(-5px) rotate(360deg); }
+
+        .social-link:hover {
+            background: #8b5cf6;
+            color: #000;
+            transform: translateY(-5px) rotate(360deg);
+        }
 
         .progress-bar {
-            position:fixed; top:0; left:0; width:0%; height:4px;
-            background:linear-gradient(90deg, #c084fc, #a855f7, #f472b6); z-index:1001;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #c084fc, #a855f7, #f472b6);
+            z-index: 1001;
         }
 
-        @media (max-width:768px) { .cursor, .cursor-follower { display:none; } }
+        @media (max-width:768px) {
+
+            .cursor,
+            .cursor-follower {
+                display: none;
+            }
+        }
     </style>
 </head>
-<body id="body" class="dark-theme">   <!-- class dark-theme is now the only one, but we don't use light-theme at all -->
+
+<body id="body" class="dark-theme"> <!-- class dark-theme is now the only one, but we don't use light-theme at all -->
     <!-- Progress bar -->
     <div class="progress-bar" id="progressBar"></div>
 
@@ -249,13 +509,16 @@
         <!-- Hero Section -->
         <section id="hero" class="min-h-screen flex items-center justify-center px-6">
             <div class="w-full max-w-6xl text-center">
-                <h1 class="text-5xl md:text-6xl font-bold tracking-wide text-center font-bold mb-4 gradient-text bg-clip-text text-transparent">
+                <h1
+                    class="text-5xl md:text-6xl font-bold tracking-wide text-center font-bold mb-4 gradient-text bg-clip-text text-transparent">
                     Nabeel Rashid
                 </h1>
                 <p class="text-lg sm:text-xl md:text-2xl text-gray-300 mb-12">Full-Stack | Mern Stack Specialist</p>
                 <!-- Terminal card (unchanged) -->
-                <div class="w-full max-w-3xl mx-auto rounded-2xl overflow-hidden bg-slate-900/80 backdrop-blur-xl border border-slate-700/60 shadow-2xl">
-                    <div class="flex items-center justify-between px-5 py-3 bg-slate-800/70 border-b border-slate-700/60">
+                <div
+                    class="w-full max-w-3xl mx-auto rounded-2xl overflow-hidden bg-slate-900/80 backdrop-blur-xl border border-slate-700/60 shadow-2xl">
+                    <div
+                        class="flex items-center justify-between px-5 py-3 bg-slate-800/70 border-b border-slate-700/60">
                         <div class="flex items-center gap-2">
                             <span class="w-3 h-3 bg-red-500 rounded-full"></span>
                             <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
@@ -264,33 +527,60 @@
                         <div class="text-gray-400 text-start text-sm font-mono">nabeel@portfolio — bash</div>
                         <div></div>
                     </div>
-                    <div class="p-6 sm:p-8 text-left font-mono text-sm sm:text-base text-green-400 min-h-[280px] space-y-2 mt-1" id="terminal-output"></div>
+                    <div class="p-6 sm:p-8 text-left font-mono text-sm sm:text-base text-green-400 min-h-[280px] space-y-2 mt-1"
+                        id="terminal-output"></div>
                 </div>
                 <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
-                    <a href="#contact" class="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/40">Contact Me</a>
-                    <a href="/resume.pdf" download class="px-8 py-4 border-2 border-purple-500 text-purple-300 rounded-full font-semibold transition-all duration-300 hover:bg-purple-500 hover:text-white hover:scale-105">Download CV</a>
+                    <a href="#contact"
+                        class="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/40">Contact
+                        Me</a>
+                    <a href="/resume.pdf" class="px-8 py-4 border-2 border-purple-500 text-purple-300 rounded-full font-semibold 
+   opacity-50 cursor-not-allowed pointer-events-none">
+                        Download CV
+                    </a>
                 </div>
             </div>
         </section>
 
         <!-- About Section -->
         <section id="about" class="py-20 section-fade-in">
-            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">About <span class="gradient-text">Me</span></h2>
+            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">About <span
+                    class="gradient-text">Me</span></h2>
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="flex justify-center">
                     <div class="relative group w-64 h-64 md:w-80 md:h-80">
-                        <div class="absolute -inset-4 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full opacity-20 blur-xl group-hover:opacity-50 transition duration-500"></div>
-                        <img src="./assests/nabil.png" alt="Nabeel Rashid" class="relative z-10 w-full h-full rounded-full object-cover shadow-2xl border-4 border-white/10 transition-transform duration-500 group-hover:scale-105">
+                        <div
+                            class="absolute -inset-4 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full opacity-20 blur-xl group-hover:opacity-50 transition duration-500">
+                        </div>
+                        <img src="./assests/nabil.png" alt="Nabeel Rashid"
+                            class="relative z-10 w-full h-full rounded-full object-cover shadow-2xl border-4 border-white/10 transition-transform duration-500 group-hover:scale-105">
                     </div>
                 </div>
                 <div>
-                    <p class="text-lg leading-relaxed mb-6">Results-driven Full Stack Developer with <span class="text-purple-500 font-bold">3+ years</span> of experience building enterprise-level applications. Strong expertise in React, Node.js and Express.js. Also experienced in API integration, authentication and performance optimization.</p>
-                    <p class="text-lg leading-relaxed mb-8">Based in Karachi, Pakistan, I've worked with startups and established companies. My approach combines technical excellence with creative problem-solving.</p>
+                    <p class="text-lg leading-relaxed mb-6">Results-driven Full Stack Developer with <span
+                            class="text-purple-500 font-bold">3+ years</span> of experience building enterprise-level
+                        applications. Strong expertise in React, Node.js and Express.js. Also experienced in API
+                        integration, authentication and performance optimization.</p>
+                    <p class="text-lg leading-relaxed mb-8">Based in Karachi, Pakistan, I've worked with startups and
+                        established companies. My approach combines technical excellence with creative problem-solving.
+                    </p>
                     <div class="grid grid-cols-2 gap-6">
-                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl"><h3 class="font-bold text-sm text-purple-500">React + Next.js + Node.js</h3><p class="text-sm text-gray-300">Framework</p></div>
-                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl"><h3 class="font-bold text-sm text-purple-500">English + Urdu (Fluent)</h3><p class="text-sm text-gray-300">Language</p></div>
-                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl"><h3 class="font-bold text-sm text-purple-500">Gulistan-e-Johar, Karachi</h3><p class="text-sm text-gray-300">Location</p></div>
-                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl"><h3 class="font-bold text-sm text-purple-500">Open to Work</h3><p class="text-sm text-gray-300">Status</p></div>
+                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl">
+                            <h3 class="font-bold text-sm text-purple-500">React + Next.js + Node.js</h3>
+                            <p class="text-sm text-gray-300">Framework</p>
+                        </div>
+                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl">
+                            <h3 class="font-bold text-sm text-purple-500">English + Urdu (Fluent)</h3>
+                            <p class="text-sm text-gray-300">Language</p>
+                        </div>
+                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl">
+                            <h3 class="font-bold text-sm text-purple-500">Gulistan-e-Johar, Karachi</h3>
+                            <p class="text-sm text-gray-300">Location</p>
+                        </div>
+                        <div class="p-4 bg-gradient-to-br from-purple-500/10 to-indigo-600/10 rounded-xl">
+                            <h3 class="font-bold text-sm text-purple-500">Open to Work</h3>
+                            <p class="text-sm text-gray-300">Status</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -298,51 +588,168 @@
 
         <!-- Tech Stack -->
         <section id="tech-stack" class="py-20 section-fade-in">
-            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">Tech <span class="gradient-text">Stack</span></h2>
+            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">Tech <span
+                    class="gradient-text">Stack</span></h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="skill-card text-center"><i class="fab fa-react text-5xl text-blue-400 mb-3"></i><h3 class="font-semibold text-xl">React.js</h3><p class="text-sm text-gray-400">Frontend</p></div>
-                <div class="skill-card text-center"><i class="fab fa-node text-5xl text-green-400 mb-3"></i><h3 class="font-semibold text-xl">Node.js</h3><p class="text-sm text-gray-400">Backend</p></div>
-                <div class="skill-card text-center"><i class="fas fa-database text-5xl text-orange-400 mb-3"></i><h3 class="font-semibold text-xl">MySQL</h3><p class="text-sm text-gray-400">Database</p></div>
-                <div class="skill-card text-center"><i class="fab fa-js text-5xl text-yellow-400 mb-3"></i><h3 class="font-semibold text-xl">Next.js</h3><p class="text-sm text-gray-400">Framework</p></div>
-                <div class="skill-card text-center"><i class="fab fa-css3-alt text-5xl text-blue-300 mb-3"></i><h3 class="font-semibold text-xl">Tailwind CSS</h3><p class="text-sm text-gray-400">Styling</p></div>
-                <div class="skill-card text-center"><i class="fab fa-python text-5xl text-blue-500 mb-3"></i><h3 class="font-semibold text-xl">Python</h3><p class="text-sm text-gray-400">AI/ML</p></div>
-                <div class="skill-card text-center"><i class="fab fa-git-alt text-5xl text-orange-400 mb-3"></i><h3 class="font-semibold text-xl">Git</h3><p class="text-sm text-gray-400">Version Control</p></div>
-                <div class="skill-card text-center"><i class="fas fa-cloud text-5xl text-blue-400 mb-3"></i><h3 class="font-semibold text-xl">AWS</h3><p class="text-sm text-gray-400">Cloud</p></div>
+                <div class="skill-card text-center"><i class="fab fa-react text-5xl text-blue-400 mb-3"></i>
+                    <h3 class="font-semibold text-xl">React.js</h3>
+                    <p class="text-sm text-gray-400">Frontend</p>
+                </div>
+                <div class="skill-card text-center"><i class="fab fa-node text-5xl text-green-400 mb-3"></i>
+                    <h3 class="font-semibold text-xl">Node.js</h3>
+                    <p class="text-sm text-gray-400">Backend</p>
+                </div>
+                <div class="skill-card text-center"><i class="fas fa-database text-5xl text-orange-400 mb-3"></i>
+                    <h3 class="font-semibold text-xl">MySQL</h3>
+                    <p class="text-sm text-gray-400">Database</p>
+                </div>
+                <div class="skill-card text-center"><i class="fab fa-js text-5xl text-yellow-400 mb-3"></i>
+                    <h3 class="font-semibold text-xl">Next.js</h3>
+                    <p class="text-sm text-gray-400">Framework</p>
+                </div>
+                <div class="skill-card text-center"><i class="fab fa-css3-alt text-5xl text-blue-300 mb-3"></i>
+                    <h3 class="font-semibold text-xl">Tailwind CSS</h3>
+                    <p class="text-sm text-gray-400">Styling</p>
+                </div>
+                <div class="skill-card text-center"><i class="fab fa-python text-5xl text-blue-500 mb-3"></i>
+                    <h3 class="font-semibold text-xl">Python</h3>
+                    <p class="text-sm text-gray-400">AI/ML</p>
+                </div>
+                <div class="skill-card text-center"><i class="fab fa-git-alt text-5xl text-orange-400 mb-3"></i>
+                    <h3 class="font-semibold text-xl">Git</h3>
+                    <p class="text-sm text-gray-400">Version Control</p>
+                </div>
+                <div class="skill-card text-center"><i class="fas fa-cloud text-5xl text-blue-400 mb-3"></i>
+                    <h3 class="font-semibold text-xl">AWS</h3>
+                    <p class="text-sm text-gray-400">Cloud</p>
+                </div>
             </div>
         </section>
 
         <!-- Projects -->
         <section id="projects" class="py-20 section-fade-in">
-            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">Featured <span class="gradient-text">Projects</span></h2>
+            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">Featured <span
+                    class="gradient-text">Projects</span></h2>
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- project cards unchanged, but remove any light classes; they inherit dark styles -->
-                <div class="project-card"><a href="https://exploriee.com"><div class="project-image"><img src="./assests/exppppp.png" alt="E-commerce Platform"></div><div class="p-6"><h3 class="text-2xl font-bold mb-2">Exploriee</h3><p class="text-gray-300 mb-4">Exploriee.com appears to be a travel-tech startup focused on trips and travel management...</p><div class="flex flex-wrap gap-2"><span class="tech-tag">React</span><span class="tech-tag">Tailwind</span><span class="tech-tag">TS</span><span class="tech-tag">Redux</span><span class="tech-tag">MUI</span></div></div></a></div>
-                <div class="project-card"><a href="https://cabify.com/en"><div class="project-image"><img src="./assests/bbbb.png" alt="Cabtify"></div><div class="p-6"><h3 class="text-2xl font-bold mb-2">Cabtify</h3><p class="text-gray-300 mb-4">Cabify’s business model combines ride-hailing, corporate mobility...</p><div class="flex flex-wrap gap-2"><span class="tech-tag">Nodejs</span><span class="tech-tag">MongoDB</span><span class="tech-tag">Stripe</span><span class="tech-tag">Tailwind</span><span class="tech-tag">Context API</span></div></div></a></div>
-                <div class="project-card"><a href="https://rukn-al-awar.vercel.app"><div class="project-image"><img src="./assests/ruks.png" alt="Rukn Al Tawar"></div><div class="p-6"><h3 class="text-2xl font-bold mb-2">Rukn Al Tawar</h3><p class="text-gray-300 mb-4">Iron recycling company, promoting sustainability...</p><div class="flex flex-wrap gap-2"><span class="tech-tag">Next.js</span><span class="tech-tag">Shadcn</span><span class="tech-tag">Bootstrap</span><span class="tech-tag">CSS3</span></div></div></a></div>
-                <div class="project-card"><a href="https://moisesrv.com/"><div class="project-image"><img src="./assests/rvvvv.png" alt="Moises Rv"></div><div class="p-6"><h3 class="text-2xl font-bold mb-2">Moises Rv</h3><p class="text-gray-300 mb-4">Safe, convenient travel experience...</p><div class="flex flex-wrap gap-2"><span class="tech-tag">Express</span><span class="tech-tag">Postgres</span><span class="tech-tag">Redis</span><span class="tech-tag">Google APIs</span></div></div></a></div>
-                <div class="project-card"><a href="https://tailadmins.vercel.app/"><div class="project-image"><img src="./assests/adminss.png" alt="E-commerce Admin"></div><div class="p-6"><h3 class="text-2xl font-bold mb-2">E‑commerce Admin</h3><p class="text-gray-300 mb-4">Admin Dashboard with React, product management, orders...</p><div class="flex flex-wrap gap-2"><span class="tech-tag">Next.js</span><span class="tech-tag">MUI</span><span class="tech-tag">REST</span><span class="tech-tag">Tailwind</span></div></div></a></div>
+                <div class="project-card"><a href="https://exploriee.com">
+                        <div class="project-image"><img src="./assests/exppppp.png" alt="E-commerce Platform"></div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">Exploriee</h3>
+                            <p class="text-gray-300 mb-4">Exploriee.com appears to be a travel-tech startup focused on
+                                trips and travel management...</p>
+                            <div class="flex flex-wrap gap-2"><span class="tech-tag">React</span><span
+                                    class="tech-tag">Tailwind</span><span class="tech-tag">TS</span><span
+                                    class="tech-tag">Redux</span><span class="tech-tag">MUI</span></div>
+                        </div>
+                    </a></div>
+                <div class="project-card"><a href="https://cabify.com/en">
+                        <div class="project-image"><img src="./assests/bbbb.png" alt="Cabtify"></div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">Cabtify</h3>
+                            <p class="text-gray-300 mb-4">Cabify’s business model combines ride-hailing, corporate
+                                mobility...</p>
+                            <div class="flex flex-wrap gap-2"><span class="tech-tag">Nodejs</span><span
+                                    class="tech-tag">MongoDB</span><span class="tech-tag">Stripe</span><span
+                                    class="tech-tag">Tailwind</span><span class="tech-tag">Context API</span></div>
+                        </div>
+                    </a></div>
+                <div class="project-card"><a href="https://rukn-al-awar.vercel.app">
+                        <div class="project-image"><img src="./assests/ruks.png" alt="Rukn Al Tawar"></div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">Rukn Al Tawar</h3>
+                            <p class="text-gray-300 mb-4">Rukn Al Tawar Waste is a leading iron
+                                recycling
+                                company committed to promoting environmental sustainability...</p>
+                            <div class="flex flex-wrap gap-2"><span class="tech-tag">Next.js</span><span
+                                    class="tech-tag">Shadcn</span><span class="tech-tag">Bootstrap</span><span
+                                    class="tech-tag">CSS3</span></div>
+                        </div>
+                    </a></div>
+                <div class="project-card"><a href="https://moisesrv.com/">
+                        <div class="project-image"><img src="./assests/rvvvv.png" alt="Moises Rv"></div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">Moises Rv</h3>
+                            <p class="text-gray-300 mb-4">
+                                Moisesrv is committed to delivering a safe,
+                                convenient, and stress-free travel experience...</p>
+                            <div class="flex flex-wrap gap-2"><span class="tech-tag">Express</span><span
+                                    class="tech-tag">Postgres</span><span class="tech-tag">Redis</span><span
+                                    class="tech-tag">Google APIs</span></div>
+                        </div>
+                    </a></div>
+                <div class="project-card"><a href="https://tailadmins.vercel.app/">
+                        <div class="project-image"><img src="./assests/adminss.png" alt="E-commerce Admin"></div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold mb-2">E‑commerce Admin</h3>
+                            <p class="text-gray-300 mb-4">
+                                E-commerce Admin Dashboard with React, designed
+                                to streamline store operations such as product management, order tracking, customer
+                                management, and sales analytics...</p>
+                            <div class="flex flex-wrap gap-2"><span class="tech-tag">Next.js</span><span
+                                    class="tech-tag">MUI</span><span class="tech-tag">REST</span><span
+                                    class="tech-tag">Tailwind</span></div>
+                        </div>
+                    </a></div>
             </div>
         </section>
 
         <!-- Experience -->
         <section id="experience" class="py-20 section-fade-in">
-            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">Work <span class="gradient-text">Experience</span></h2>
+            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">Work <span
+                    class="gradient-text">Experience</span></h2>
             <div class="max-w-3xl mx-auto">
-                <div class="timeline-item"><div class="timeline-dot"></div><h3 class="text-2xl font-bold">Software Engineer</h3><p class="text-purple-400 mb-2">TechSoft · 2/2024 - Present</p><ul class="text-gray-300 list-disc pl-5 space-y-2"><li>Design responsive UI with React, state management.</li><li>Build RESTful APIs, middleware security.</li></ul></div>
-                <div class="timeline-item"><div class="timeline-dot"></div><h3 class="text-2xl font-bold">Full Stack Developer</h3><p class="text-purple-400 mb-2">Sunbonn Technology · 11/2022 - 2/2024</p><ul class="text-gray-300 list-disc pl-5 space-y-2"><li>Optimize frontend performance, integrate APIs.</li><li>Design MongoDB schemas, write queries.</li></ul></div>
-                <div class="timeline-item"><div class="timeline-dot"></div><h3 class="text-2xl font-bold">Junior Web Developer</h3><p class="text-purple-400 mb-2">Friends Bit · 8/2021 - 10/2022</p><ul class="text-gray-300 list-disc pl-5 space-y-2"><li>Internal tools, workflow automation.</li><li>Backend integration with Node.js.</li></ul></div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3 class="text-2xl font-bold">Software Engineer</h3>
+                    <p class="text-purple-400 mb-2">TechSoft · 2/2024 - Present</p>
+                    <ul class="text-gray-300 list-disc pl-5 space-y-2">
+                        <li>Design and implement responsive UI components using React.js.</li>
+                        <li>Work with state management tools like Redux, Context API, or Zustand.</li>
+                        <li>Ensure cross-browser compatibility and mobile responsiveness.</li>
+                        <li>Build RESTful APIs and/or GraphQL endpoints.</li>
+                        <li>Manage server-side logic, authentication, and data validation.</li>
+                        <li>Implement middleware for security, logging, and error handling.</li>
+
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3 class="text-2xl font-bold">Full Stack Developer</h3>
+                    <p class="text-purple-400 mb-2">Sunbonn Technology · 11/2022 - 2/2024</p>
+                    <ul class="text-gray-300 list-disc pl-5 space-y-2">
+                        <li>Optimize frontend for performance and fast load times.</li>
+                        <li>Integrate APIs and dynamic content into the frontend.</li>
+                        <li>Ensure scalability and maintainability of backend services.</li>
+                        <li>Design and manage MongoDB collections and schemas.</li>
+                        <li>Write optimized queries for data retrieval and manipulation.</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <h3 class="text-2xl font-bold">Junior Web Developer</h3>
+                    <p class="text-purple-400 mb-2">Friends Bit · 8/2021 - 10/2022</p>
+                    <ul class="text-gray-300 list-disc pl-5 space-y-2">
+                        <li>Contributed to internal project management software, improving workflow automation and
+                            aligning technical solutions with business objectives.</li>
+                        <li>Learning to integrate backend services such as Node.js and databases like MongoDB.</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
         <!-- Contact -->
         <section id="contact" class="py-20 section-fade-in">
-            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">Get In <span class="gradient-text">Touch</span></h2>
+            <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 font-['Space_Grotesk']">Get In <span
+                    class="gradient-text">Touch</span></h2>
             <div class="max-w-2xl mx-auto">
                 <form id="contactForm" class="space-y-6" onsubmit="handleSubmit(event)">
                     <input type="text" id="name" name="name" placeholder="Your Name" required class="form-input">
                     <input type="email" id="email" name="email" placeholder="Your Email" required class="form-input">
-                    <textarea id="message" name="message" rows="5" placeholder="Your Message" required class="form-input"></textarea>
-                    <button type="submit" class="submit-btn"><span>Send Message</span><i class="fas fa-paper-plane ml-2"></i></button>
+                    <textarea id="message" name="message" rows="5" placeholder="Your Message" required
+                        class="form-input"></textarea>
+                    <button type="submit" class="submit-btn"><span>Send Message</span><i
+                            class="fas fa-paper-plane ml-2"></i></button>
                 </form>
                 <div id="formMessage" class="mt-4 text-center hidden"></div>
             </div>
@@ -354,7 +761,8 @@
                 <p class="text-gray-400">&copy; 2024 Nabeel Rashid. All rights reserved.</p>
                 <div class="flex gap-4">
                     <a href="https://github.com" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/nabeel-rashid-4365a81b6/" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.linkedin.com/in/nabeel-rashid-4365a81b6/" target="_blank"
+                        class="social-link"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
         </footer>
@@ -373,7 +781,7 @@
         document.querySelectorAll('a, button, .skill-card, .project-card').forEach(el => { el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%, -50%) scale(1.5)'; cursor.style.backgroundColor = 'rgba(139, 92, 246, 0.3)'; cursorFollower.style.transform = 'translate(-50%, -50%) scale(1.5)'; }); el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%, -50%) scale(1)'; cursor.style.backgroundColor = 'transparent'; cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)'; }); });
         // terminal
         const terminal = document.getElementById("terminal-output");
-        const texts = [ "Initializing portfolio...", "Role: Full-Stack Developer | MERN Stack | Karachi, Pakistan", "Status: Open to opportunities — Onsite & Remote", "Stack: React · Next.js · TypeScript · Node.js", "Passion: Clean Code & Scalable Applications", ];
+        const texts = ["Initializing portfolio...", "Role: Full-Stack Developer | MERN Stack | Karachi, Pakistan", "Status: Open to opportunities — Onsite & Remote", "Stack: React · Next.js · TypeScript · Node.js", "Passion: Clean Code & Scalable Applications",];
         let lineIndex = 0, charIndex = 0;
         function typeLine() { if (lineIndex >= texts.length) return; let currentLine = texts[lineIndex]; if (charIndex === 0) { const newLine = document.createElement("div"); newLine.innerHTML = `<span class="text-blue-400">></span> <span class="line-text"></span><span class="cursor"></span>`; terminal.appendChild(newLine); } const currentDiv = terminal.lastChild; const textSpan = currentDiv.querySelector(".line-text"); textSpan.textContent = currentLine.substring(0, charIndex + 1); charIndex++; if (charIndex === currentLine.length) { currentDiv.querySelector(".cursor").remove(); lineIndex++; charIndex = 0; setTimeout(typeLine, 600); } else { setTimeout(typeLine, 50); } } typeLine();
 
@@ -391,9 +799,10 @@
         // smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function (e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' }); }); });
         // contact form mock
-        async function handleSubmit(event) { event.preventDefault(); const form = document.getElementById('contactForm'); const btn = form.querySelector('button[type="submit"]'); const orig = btn.innerHTML; btn.innerHTML = '<div class="loading-spinner mx-auto"></div>'; btn.disabled = true; await new Promise(r => setTimeout(r,2000)); const msgDiv = document.getElementById('formMessage'); msgDiv.classList.remove('hidden'); msgDiv.className = 'mt-4 text-center text-green-400 font-semibold'; msgDiv.textContent = '✨ Message sent successfully! I\'ll get back soon.'; form.reset(); btn.innerHTML = orig; btn.disabled = false; setTimeout(()=> msgDiv.classList.add('hidden'),5000); }
+        async function handleSubmit(event) { event.preventDefault(); const form = document.getElementById('contactForm'); const btn = form.querySelector('button[type="submit"]'); const orig = btn.innerHTML; btn.innerHTML = '<div class="loading-spinner mx-auto"></div>'; btn.disabled = true; await new Promise(r => setTimeout(r, 2000)); const msgDiv = document.getElementById('formMessage'); msgDiv.classList.remove('hidden'); msgDiv.className = 'mt-4 text-center text-green-400 font-semibold'; msgDiv.textContent = '✨ Message sent successfully! I\'ll get back soon.'; form.reset(); btn.innerHTML = orig; btn.disabled = false; setTimeout(() => msgDiv.classList.add('hidden'), 5000); }
         // close menu outside click
         document.addEventListener('click', (e) => { const menu = document.getElementById('mobileMenu'); const toggle = document.getElementById('menuToggle'); if (!menu.contains(e.target) && !toggle.contains(e.target) && menu.classList.contains('open')) { menu.classList.remove('open'); toggle.classList.remove('open'); } });
     </script>
 </body>
+
 </html>
